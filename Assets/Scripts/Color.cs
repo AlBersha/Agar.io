@@ -4,10 +4,10 @@ using UnityEngine.Serialization;
 
 public class Color : MonoBehaviour
 {
-    public List<Material> materials = new List<Material>();
+    public List<Material> Materials = new List<Material>();
 
     private void Awake()
     {
-        GetComponent<Renderer>().material = materials[Random.Range(0, materials.Count)];
+        GetComponent<Renderer>().material = Materials[Random.Range(0, Materials.Count)];
     }
 }

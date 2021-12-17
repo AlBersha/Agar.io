@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public float speed;
+    public float Speed;
     
     void Update()
     {
@@ -10,7 +10,7 @@ public class Move : MonoBehaviour
         var position = transform.position;
         target.z = position.z;
 
-        position = Vector3.MoveTowards(position, target, speed * Time.deltaTime / transform.localScale.x);
+        position = Vector3.MoveTowards(position, target, Speed * Time.deltaTime / transform.localScale.x);
         transform.position = position;
     }
 }
