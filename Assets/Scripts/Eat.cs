@@ -7,7 +7,7 @@ public class Eat : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(Tag) && GameManager.food.ContainsKey(transform.position))
-            ClientSend.EatFood(other.gameObject.transform.position);
+        if (other.gameObject.CompareTag(Tag) && GameManager.localPosToFood.ContainsKey(other.gameObject.transform.position))
+            ClientSend.EatFood(GameManager.localPosToFood[other.gameObject.transform.position].position);
     }
 }

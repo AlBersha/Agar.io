@@ -903,6 +903,7 @@ MonoBehaviour:
   localPlayerPrefab: {fileID: 5851043458374336757, guid: 83dffc5f224c69d44a04d4949457da83, type: 3}
   playerPrefab: {fileID: 7122619427889199902, guid: 8efce3471dc28a14f93b3373203b2259, type: 3}
   foodPrefab: {fileID: 7891499280601629168, guid: 41ebcebe449cebe4ea92c61bfeac8ae3, type: 3}
+  ScoreText: {fileID: 470705346}
 --- !u!4 &1562447676
 Transform:
   m_ObjectHideFlags: 0

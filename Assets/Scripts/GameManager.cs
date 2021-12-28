@@ -9,13 +9,15 @@ namespace Assets.Scripts
         public static GameManager instance;
 
         public static Dictionary<int, PlayerManager> players = new Dictionary<int, PlayerManager>();
-        public static Dictionary<Vector2, Food> food = new Dictionary<Vector2, Food>();
+        public static Dictionary<Vector2, Food> posToFood = new Dictionary<Vector2, Food>();
+        public static Dictionary<Vector3, Food> localPosToFood = new Dictionary<Vector3, Food>();
 
         public GameObject localPlayerPrefab;
         public GameObject playerPrefab;
         public GameObject foodPrefab;
 
-        public static Text ScoreText;
+        [SerializeField]
+        public Text ScoreText;
 
         private void Awake()
         {
@@ -51,11 +53,15 @@ namespace Assets.Scripts
         public void SpawnFood(Vector3 _position)
         {
             GameObject _food;
-            _food = Instantiate(foodPrefab, _position, Quaternion.identity);
+
+            Vector3 target = Camera.main.ScreenToWorldPoint(new Vector3(_position.x, _position.y, 0));
+            target.z = 0;
+            _food = Instantiate(foodPrefab, target, Quaternion.identity);
 
             _food.GetComponent<Food>().position = _position;
             _food.GetComponent<Food>().gameObject = _food;
-            food.Add(_position, _food.GetComponent<Food>());
+            posToFood.Add(_position, _food.GetComponent<Food>());
+            localPosToFood.Add(target, _food.GetComponent<Food>());
         }
     }
 }

@@ -9,10 +9,16 @@ public class ClientHandle : MonoBehaviour
         string _msg = _packet.ReadString();
         int _myId = _packet.ReadInt();
 
+
+        int foodSize = _packet.ReadInt();
+        for (int i = 0; i < foodSize; i++)
+            GameManager.instance.SpawnFood(_packet.ReadVector2());
+
         Debug.Log($"Message from server: {_msg}");
         Client.instance.myId = _myId;
-        ClientSend.WelcomeReceived();
 
+        ClientSend.WelcomeReceived();
+        
         Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
     }
 
@@ -50,8 +56,9 @@ public class ClientHandle : MonoBehaviour
         GameManager.players[_id].score = _score;
 
         if (_id == Client.instance.myId)
-            GameManager.ScoreText.text = "Score : " + _score;
+            GameManager.instance.ScoreText.text = "Score : " + _score;
 
-        Destroy(GameManager.food[_position].gameObject);
+        GameManager.posToFood[_position].gameObject.SetActive(false);
+        Destroy(GameManager.posToFood[_position].gameObject);
     }
 }
