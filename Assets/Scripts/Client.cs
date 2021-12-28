@@ -17,6 +17,7 @@ namespace Assets.Scripts
         public TCP tcp;
         public UDP udp;
 
+        private bool isConnected = false;
         private delegate void PacketHandler(Packet _packet);
         private static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -38,11 +39,16 @@ namespace Assets.Scripts
             tcp = new TCP();
             udp = new UDP();
         }
+        private void OnApplicationQuit()
+        {
+            Disconnect();
+        }
 
         public void ConnectToServer()
         {
             InitializeClientData();
 
+            isConnected = true;
             tcp.Connect();
         }
 
@@ -104,7 +110,7 @@ namespace Assets.Scripts
                     int _byteLength = stream.EndRead(_result);
                     if (_byteLength <= 0)
                     {
-                        // TODO: disconnect
+                        instance.Disconnect();
                         return;
                     }
 
@@ -116,7 +122,7 @@ namespace Assets.Scripts
                 }
                 catch
                 {
-                    // TODO: disconnect
+                    Disconnect();
                 }
             }
 
@@ -164,6 +170,15 @@ namespace Assets.Scripts
                 }
 
                 return false;
+            }
+            private void Disconnect()
+            {
+                instance.Disconnect();
+
+                stream = null;
+                receivedData = null;
+                receiveBuffer = null;
+                socket = null;
             }
         }
 
@@ -215,7 +230,7 @@ namespace Assets.Scripts
 
                     if (_data.Length < 4)
                     {
-                        // TODO: disconnect
+                        instance.Disconnect();
                         return;
                     }
 
@@ -223,7 +238,7 @@ namespace Assets.Scripts
                 }
                 catch
                 {
-                    // TODO: disconnect
+                    Disconnect();
                 }
             }
 
@@ -244,17 +259,35 @@ namespace Assets.Scripts
                     }
                 });
             }
+            private void Disconnect()
+            {
+                instance.Disconnect();
+
+                endPoint = null;
+                socket = null;
+            }
         }
 
         private void InitializeClientData()
         {
             packetHandlers = new Dictionary<int, PacketHandler>()
-        {
-            { (int)ServerPackets.welcome, ClientHandle.Welcome },
-            { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
-            { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition }
-        };
+            {
+                { (int)ServerPackets.welcome, ClientHandle.Welcome },
+                { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
+                { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition }
+            };
             Debug.Log("Initialized packets.");
+        }
+        private void Disconnect()
+        {
+            if (isConnected)
+            {
+                isConnected = false;
+                tcp.socket.Close();
+                udp.socket.Close();
+
+                Debug.Log("Disconnected from server.");
+            }
         }
     }
 }
