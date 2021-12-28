@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5851043458374336761}
   m_Layer: 0
   m_Name: LocalPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
   id: 0
   username: 
   score: 0
+  isAlive: 0
 --- !u!114 &-7559289252525256784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,8 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701943ed6ae0492469ea7692bb2c6721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tag: Food
-  Increase: 0
 --- !u!114 &5851043458374336759
 MonoBehaviour:
   m_ObjectHideFlags: 0

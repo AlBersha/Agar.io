@@ -32,7 +32,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void SpawnPlayer(int _id, string _username, Vector3 _position)
+        public void SpawnPlayer(int _id, string _username, Vector3 _position, int _score)
         {
             GameObject _player;
             if (_id == Client.instance.myId)
@@ -44,9 +44,21 @@ namespace Assets.Scripts
                 _player = Instantiate(playerPrefab, _position, Quaternion.identity);
             }
 
+            _player.name = _id.ToString();
             _player.GetComponent<PlayerManager>().id = _id;
             _player.GetComponent<PlayerManager>().username = _username;
-            _player.GetComponent<PlayerManager>().score = 0;
+            _player.GetComponent<PlayerManager>().score = _score;
+
+            if (_score != 0)
+            {
+                const float scaleIncrease = 0.1f;
+                for (int i = 0; i < _score / 10; i++)
+                {
+                    _player.transform.localScale += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease);
+                }
+            }
+
+            _player.GetComponent<PlayerManager>().isAlive = true;
             players.Add(_id, _player.GetComponent<PlayerManager>());
         }
 

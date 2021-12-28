@@ -29,6 +29,9 @@ public class ClientSend : MonoBehaviour
 
     public static void PlayerMovement(bool[] _inputs)
     {
+        if (!GameManager.players[Client.instance.myId].isAlive)
+            return;
+
         using (Packet _packet = new Packet((int)ClientPackets.playerMovement))
         {
             _packet.Write(_inputs.Length);
@@ -46,6 +49,15 @@ public class ClientSend : MonoBehaviour
         using (Packet _packet = new Packet((int)ClientPackets.eatFood))
         {
             _packet.Write(_foodPosition);
+            SendUDPData(_packet);
+        }
+    }
+
+    public static void EatPlayer(int _idVictim)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.eatPlayer))
+        {
+            _packet.Write(_idVictim);
             SendUDPData(_packet);
         }
     }

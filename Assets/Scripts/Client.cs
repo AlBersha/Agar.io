@@ -277,6 +277,7 @@ namespace Assets.Scripts
                 { (int)ServerPackets.spawnFood, ClientHandle.SpawnFood },
                 { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
                 { (int)ServerPackets.foodEaten, ClientHandle.FoodEaten },
+                { (int)ServerPackets.playerEaten, ClientHandle.PlayerEaten },
             };
             Debug.Log("Initialized packets.");
         }

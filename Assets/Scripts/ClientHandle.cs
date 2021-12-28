@@ -27,8 +27,9 @@ public class ClientHandle : MonoBehaviour
         int _id = _packet.ReadInt();
         string _username = _packet.ReadString();
         Vector2 _position = _packet.ReadVector2();
+        int _score = _packet.ReadInt();
 
-        GameManager.instance.SpawnPlayer(_id, _username, _position);
+        GameManager.instance.SpawnPlayer(_id, _username, _position, _score);
     }
     
     public static void SpawnFood(Packet _packet)
@@ -52,7 +53,8 @@ public class ClientHandle : MonoBehaviour
         Vector2 _position = _packet.ReadVector2();
         int _score = _packet.ReadInt();
 
-        GameManager.players[_id].transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+        const float scaleIncrease = 0.1f;
+        GameManager.players[_id].transform.localScale += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease);
         GameManager.players[_id].score = _score;
 
         if (_id == Client.instance.myId)
@@ -60,5 +62,22 @@ public class ClientHandle : MonoBehaviour
 
         GameManager.posToFood[_position].gameObject.SetActive(false);
         Destroy(GameManager.posToFood[_position].gameObject);
+    }
+
+    public static void PlayerEaten(Packet _packet)
+    {
+        int _loserId = _packet.ReadInt();
+
+        int _winnerId = _packet.ReadInt();
+        int _winnerScore = _packet.ReadInt();
+
+        GameManager.players[_winnerId].transform.localScale += GameManager.players[_loserId].transform.localScale;
+        GameManager.players[_winnerId].score = _winnerScore;
+
+        if (_loserId == Client.instance.myId)
+            GameManager.instance.ScoreText.text += "; YOU LOSE";
+
+        GameManager.players[_loserId].gameObject.SetActive(false);
+        Destroy(GameManager.players[_loserId].gameObject);
     }
 }

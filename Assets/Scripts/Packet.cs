@@ -11,13 +11,15 @@ namespace Assets.Scripts
         spawnPlayer,
         spawnFood,
         playerPosition,
-        foodEaten
+        foodEaten,
+        playerEaten
     }
     public enum ClientPackets
     {
         welcomeReceived = 1,
         playerMovement,
         eatFood,
+        eatPlayer
     }
 
     public class Packet : IDisposable
