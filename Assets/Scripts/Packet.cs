@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
     public enum ServerPackets
     {
         welcome = 1,
-        udpTest
+        spawnPlayer,
+        playerPosition,
+        playerRotation
     }
-
     public enum ClientPackets
     {
         welcomeReceived = 1,
-        updTestReceived
+        playerMovement
     }
 
     public class Packet : IDisposable
@@ -21,13 +23,11 @@ namespace Assets.Scripts
         private List<byte> buffer;
         private byte[] readableBuffer;
         private int readPos;
-
         public Packet()
         {
             buffer = new List<byte>();
             readPos = 0;
         }
-
         public Packet(int _id)
         {
             buffer = new List<byte>();
@@ -35,7 +35,6 @@ namespace Assets.Scripts
 
             Write(_id);
         }
-
         public Packet(byte[] _data)
         {
             buffer = new List<byte>();
@@ -119,6 +118,11 @@ namespace Assets.Scripts
         {
             Write(_value.Length);
             buffer.AddRange(Encoding.ASCII.GetBytes(_value));
+        }
+        public void Write(Vector2 _value)
+        {
+            Write(_value.x);
+            Write(_value.y);
         }
         #endregion
 
@@ -252,6 +256,10 @@ namespace Assets.Scripts
                 throw new Exception("Could not read value of type 'string'!");
             }
         }
+        public Vector2 ReadVector2(bool _moveReadPos = true)
+        {
+            return new Vector2(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+        }
         #endregion
 
         private bool disposed = false;
@@ -277,4 +285,5 @@ namespace Assets.Scripts
             GC.SuppressFinalize(this);
         }
     }
+
 }
