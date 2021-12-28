@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -8,9 +9,13 @@ namespace Assets.Scripts
         public static GameManager instance;
 
         public static Dictionary<int, PlayerManager> players = new Dictionary<int, PlayerManager>();
+        public static Dictionary<Vector2, Food> food = new Dictionary<Vector2, Food>();
 
         public GameObject localPlayerPrefab;
         public GameObject playerPrefab;
+        public GameObject foodPrefab;
+
+        public static Text ScoreText;
 
         private void Awake()
         {
@@ -39,7 +44,18 @@ namespace Assets.Scripts
 
             _player.GetComponent<PlayerManager>().id = _id;
             _player.GetComponent<PlayerManager>().username = _username;
+            _player.GetComponent<PlayerManager>().score = 0;
             players.Add(_id, _player.GetComponent<PlayerManager>());
+        }
+
+        public void SpawnFood(Vector3 _position)
+        {
+            GameObject _food;
+            _food = Instantiate(foodPrefab, _position, Quaternion.identity);
+
+            _food.GetComponent<Food>().position = _position;
+            _food.GetComponent<Food>().gameObject = _food;
+            food.Add(_position, _food.GetComponent<Food>());
         }
     }
 }

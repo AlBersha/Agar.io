@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Materials:
-  - {fileID: 2100000, guid: 4977439e22547fe45bddb05910202a71, type: 2}
   - {fileID: 2100000, guid: eac3b18a690a2e943ac723c570214a12, type: 2}
   - {fileID: 2100000, guid: e152f7d215ee9be47b45a4cc0eb90169, type: 2}
+  - {fileID: 2100000, guid: 9c52eb94cd3a48a489a21c87b2f3d949, type: 2}
 --- !u!1 &7122619427889199902
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   username: 
+  score: 0
 --- !u!135 &-3979698721783569315
 SphereCollider:
   m_ObjectHideFlags: 0

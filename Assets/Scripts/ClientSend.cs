@@ -40,5 +40,14 @@ public class ClientSend : MonoBehaviour
             SendUDPData(_packet);
         }
     }
+
+    public static void EatFood(Vector2 _foodPosition)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.eatFood))
+        {
+            _packet.Write(_foodPosition);
+            SendUDPData(_packet);
+        }
+    }
     #endregion
 }

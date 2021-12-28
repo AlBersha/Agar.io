@@ -6,5 +6,6 @@ namespace Assets.Scripts
     {
         public int id;
         public string username;
+        public int score;
     }
 }
