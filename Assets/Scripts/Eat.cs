@@ -1,24 +1,16 @@
+using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Eat : MonoBehaviour
 {
-    public string Tag;
-    public float Increase;
-
-    private int Score = 0;
-    public Text ScoreText;
+    const string foodTag = "Food";
+    const string playerTag = "Player";
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(Tag))
-        {
-            transform.localScale += new Vector3(Increase, Increase, Increase);
-            Score += 10;
-            ScoreText.text = "Score : " + Score;
-            
-            Destroy(other.gameObject);
-            
-        }
+        if (other.gameObject.CompareTag(foodTag) && GameManager.localPosToFood.ContainsKey(other.gameObject.transform.position))
+            ClientSend.EatFood(GameManager.localPosToFood[other.gameObject.transform.position].position);
+        else if (other.gameObject.CompareTag(playerTag))
+            ClientSend.EatPlayer(int.Parse(other.name));
     }
 }

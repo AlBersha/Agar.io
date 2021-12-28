@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public float Speed;
-    
-    void Update()
+    private void FixedUpdate()
     {
-        var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var position = transform.position;
-        target.z = position.z;
+        SendInputToServer();
+    }
 
-        position = Vector3.MoveTowards(position, target, Speed * Time.deltaTime / transform.localScale.x);
-        transform.position = position;
+    private void SendInputToServer()
+    {
+        bool[] _inputs = new bool[]
+        {
+            Input.GetKey(KeyCode.W),
+            Input.GetKey(KeyCode.S),
+            Input.GetKey(KeyCode.A),
+            Input.GetKey(KeyCode.D),
+        };
+
+        ClientSend.PlayerMovement(_inputs);
     }
 }
