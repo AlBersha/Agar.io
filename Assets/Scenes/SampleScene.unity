@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 1485490340}
   - component: {fileID: 1485490339}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: FoodSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
